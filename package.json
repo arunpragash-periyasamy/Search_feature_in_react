@@ -4,10 +4,8 @@
   "description": "Developing an ecommerce website",
   "homepage": ".",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build ./index.html",
-    "test": "testing"
-  },
+    "start": "parcel index.html"
+    },
   "keywords": [
     "react",
     "react_search_feature"
