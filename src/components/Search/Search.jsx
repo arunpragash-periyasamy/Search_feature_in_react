@@ -11,12 +11,14 @@ const Search = () => {
     setSearchTerm(e.target.value);
     console.log(searchTerms);
     const filtered = products.filter(product => {
+      console.log(product);
       // Check if any of the search terms are found in the title or description
       return searchTerms.some(term => {
         return product.title.toLowerCase().includes(term.toLowerCase()) ||
                product.description.toLowerCase().includes(term.toLowerCase());
       });
     });
+    console.log(filtered);
     setFilteredProducts(filtered);
   };
 
