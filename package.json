@@ -1,19 +1,46 @@
 {
+  "name": "react_search_feature",
+  "version": "1.0.0",
+  "description": "Developing an ecommerce website",
+  "homepage": ".",
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel index.html",
+    "build": "npx -p parcel-bundler parcel build index.html",
+    "test": "testing"
   },
+  "keywords": [
+    "react",
+    "react_search_feature"
+  ],
+  "author": "Arunpragash A P",
+  "license": "ISC",
   "dependencies": {
-    "@babel/preset-env": "^7.24.4",
-    "axios": "^1.6.8",
-    "parcel": "^2.12.0",
+    "@babel/preset-env": "^7.24.0",
+    "@parcel/babel-preset-env": "^2.12.0",
+    "@reduxjs/toolkit": "^2.2.1",
+    "axios": "^1.6.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.4",
-    "@babel/preset-react": "^7.24.1",
+    "@babel/core": "^7.24.0",
+    "@babel/preset-react": "^7.23.3",
+    "@parcel/transformer-sass": "^2.12.0",
     "buffer": "^6.0.3",
+    "parcel": "^2.12.0",
     "process": "^0.11.10"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
