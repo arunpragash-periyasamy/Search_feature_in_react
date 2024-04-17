@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 
@@ -14,13 +15,11 @@ const Search = () => {
     setShow(true);
     const searchTerms = e.target.value.toLowerCase().split(" ").filter(item => item !== "");
     setSearchTerm(e.target.value);
-
     const filtered = products.filter(product => {
       return searchTerms.every(term => {
         return product.title.toLowerCase().includes(term) || product.description.toLowerCase().includes(term);
       });
     });
-
     setFilteredProducts(filtered);
     setSelectedIndex(0);
   };
@@ -29,7 +28,7 @@ const Search = () => {
     setSearchTerm(productName);
     setFilteredProducts([]);
     setShow(false);
-    setSelectedIndex(-1);
+    setSelectedIndex(0);
   }
 
   const handleKeyDown = (e) => {
@@ -67,42 +66,43 @@ const Search = () => {
     }
   }, [show])
 
+  useEffect(() => {
+    if (searchTerm === "") {
+      setSelectedIndex(0);
+      if (listRef.current && listRef.current.children.length > 0) {
+        listRef.current.children[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }, [searchTerm])
+
   return (
-    <div style={{ position: 'relative' }}>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={handleChange}
-        onFocus={() => { setShow(true) }}
-        onBlur={() => { setTimeout(() => setShow(false), 3000) }}
-        onKeyDown={handleKeyDown}
-        ref={inputRef}
-      />
-      {show && filteredProducts.length > 0 && (
-        <div style={{ position: 'absolute', top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,.1)', maxHeight: '200px', overflowY: 'auto', width: '100%' }}>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }} ref={listRef}>
-            {filteredProducts.map((product, index) => (
-              <li
-                key={product.id}
-                onClick={() => handleProduct(product.title)}
-                style={{
-                  padding: '8px',
-                  cursor: 'pointer',
-                  backgroundColor: selectedIndex === index ? '#f0f0f0' : 'transparent'
-                }}
-              >
-                {product.title} - {product.description}
-              </li>
-            ))}
-            {filteredProducts.length === 0 && (
-              <li style={{ padding: '8px' }}>No products found.</li>
-            )}
-          </ul>
+    <>
+      <input type="text" placeholder="Search..." value={searchTerm} onChange={handleChange} onFocus={() => { setShow(true) }} onBlur={() => { setTimeout(() => setShow(false), 2000) }} onKeyDown={handleKeyDown} ref={inputRef} />
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: '0 0 50%', backgroundColor: '#fff', padding: '16px', overflowY: 'auto', height: '200px' }}>
+          {show && filteredProducts.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, flex: '1 1 auto' }} ref={listRef}>
+                {filteredProducts.map((product, index) => (
+                  <li key={product.id} onClick={() => handleProduct(product.title)} style={{ padding: '8px', cursor: 'pointer', backgroundColor: selectedIndex === index ? '#e0e0e0' : 'transparent' }}>
+                    {product.title}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  )
+        <div style={{ flex: '0 0 50%', backgroundColor: '#fff', padding: '16px', overflowY: 'auto' }}>
+          {show && filteredProducts.length > 0 && (
+            <div style={{ border: '1px solid #ccc', padding: '16px', borderRadius: '4px' }}>
+              <h3>{filteredProducts[selectedIndex]?.title}</h3>
+              <p>{filteredProducts[selectedIndex]?.description}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default Search;
