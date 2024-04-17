@@ -7,15 +7,15 @@ const Search = () => {
   const [show, setShow] = useState(false);
 
   const handleChange = (e) => {
+    setShow(true);
     const searchTerms = e.target.value.toLowerCase().split(" ").filter(item=>item!=="");
     setSearchTerm(e.target.value);
     console.log(searchTerms);
     const filtered = products.filter(product => {
-      console.log(product);
-      // Check if any of the search terms are found in the title or description
-      return searchTerms.some(term => {
-        return product.title.toLowerCase().includes(term.toLowerCase()) ||
-               product.description.toLowerCase().includes(term.toLowerCase());
+      // Check if all the search terms are found in the title or description
+      return searchTerms.every(term => {
+        return product.title.toLowerCase().includes(term) || 
+               product.description.toLowerCase().includes(term);
       });
     });
     console.log(filtered);
