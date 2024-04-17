@@ -8,6 +8,7 @@ const Search = () => {
   const [show, setShow] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef(null);
+  const listRef = useRef(null);
 
   const handleChange = (e) => {
     setShow(true);
@@ -34,8 +35,10 @@ const Search = () => {
   const handleKeyDown = (e) => {
     if (e.key === "ArrowUp" && selectedIndex > 0) {
       setSelectedIndex(selectedIndex - 1);
+      listRef.current.children[selectedIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } else if (e.key === "ArrowDown" && selectedIndex < filteredProducts.length - 1) {
       setSelectedIndex(selectedIndex + 1);
+      listRef.current.children[selectedIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } else if (e.key === "Enter") {
       if (selectedIndex !== -1) {
         handleProduct(filteredProducts[selectedIndex].title);
@@ -78,7 +81,7 @@ const Search = () => {
       />
       {show && filteredProducts.length > 0 && (
         <div style={{ position: 'absolute', top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,.1)', maxHeight: '200px', overflowY: 'auto', width: '100%' }}>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }} ref={listRef}>
             {filteredProducts.map((product, index) => (
               <li
                 key={product.id}
