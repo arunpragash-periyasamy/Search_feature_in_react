@@ -1,6 +1,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
+import './Search.css'
 
 const Search = () => {
   const [products, setProducts] = useState([]);
@@ -76,13 +77,15 @@ const Search = () => {
   }, [searchTerm])
 
   return (
-    <>
-      <input type="text" placeholder="Search..." value={searchTerm} onChange={handleChange} onFocus={() => { setShow(true) }} onBlur={() => { setTimeout(() => setShow(false), 2000) }} onKeyDown={handleKeyDown} ref={inputRef} />
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: '0 0 50%', backgroundColor: '#fff', padding: '16px', overflowY: 'auto', height: '200px' }}>
+    <div className="container">
+  <div className="row">
+    <div className="col">
+      <input type="text" placeholder="Search..." value={searchTerm} onChange={handleChange} onFocus={() => { setShow(true) }} onBlur={() => { setTimeout(() => setShow(false), 2000) }} onKeyDown={handleKeyDown} ref={inputRef} className="form-control mb-3" />
+      <div className="d-flex">
+        <div style={{ flex: '1', height: '200px', scrollbarWidth: 'none' }} className="flex-fill overflow-hidden">
           {show && filteredProducts.length > 0 && (
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, flex: '1 1 auto' }} ref={listRef}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, flex: '1 1 auto' }} ref={listRef} className="list-unstyled">
                 {filteredProducts.map((product, index) => (
                   <li key={product.id} onClick={() => handleProduct(product.title)} style={{ padding: '8px', cursor: 'pointer', backgroundColor: selectedIndex === index ? '#e0e0e0' : 'transparent' }}>
                     {product.title}
@@ -92,16 +95,18 @@ const Search = () => {
             </div>
           )}
         </div>
-        <div style={{ flex: '0 0 50%', backgroundColor: '#fff', padding: '16px', overflowY: 'auto' }}>
+        <div style={{ flex: '1', maxWidth: '50%' }} className="flex-fill">
           {show && filteredProducts.length > 0 && (
             <div style={{ border: '1px solid #ccc', padding: '16px', borderRadius: '4px' }}>
-              <h3>{filteredProducts[selectedIndex]?.title}</h3>
-              <p>{filteredProducts[selectedIndex]?.description}</p>
+              <h3>Description</h3>
+              <p style={{ whiteSpace: 'pre-wrap' }}>{filteredProducts[selectedIndex]?.description}</p>
             </div>
           )}
         </div>
       </div>
-    </>
+    </div>
+  </div>
+</div>
   );
 }
 
